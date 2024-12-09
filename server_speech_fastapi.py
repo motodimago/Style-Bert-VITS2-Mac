@@ -18,30 +18,23 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, Query, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
+# サーバサイドで再生する為にインポート
+from pydub import AudioSegment
+from pydub.playback import play
 from scipy.io import wavfile
 
 from config import get_config
-from style_bert_vits2.constants import (
-    DEFAULT_ASSIST_TEXT_WEIGHT,
-    DEFAULT_LENGTH,
-    DEFAULT_LINE_SPLIT,
-    DEFAULT_NOISE,
-    DEFAULT_NOISEW,
-    DEFAULT_SDP_RATIO,
-    DEFAULT_SPLIT_INTERVAL,
-    DEFAULT_STYLE,
-    DEFAULT_STYLE_WEIGHT,
-    Languages,
-)
+from style_bert_vits2.constants import (DEFAULT_ASSIST_TEXT_WEIGHT,
+                                        DEFAULT_LENGTH, DEFAULT_LINE_SPLIT,
+                                        DEFAULT_NOISE, DEFAULT_NOISEW,
+                                        DEFAULT_SDP_RATIO,
+                                        DEFAULT_SPLIT_INTERVAL, DEFAULT_STYLE,
+                                        DEFAULT_STYLE_WEIGHT, Languages)
 from style_bert_vits2.logging import logger
 from style_bert_vits2.nlp import bert_models
 from style_bert_vits2.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
 from style_bert_vits2.nlp.japanese.user_dict import update_dict
 from style_bert_vits2.tts_model import TTSModel, TTSModelHolder
-
-# サーバサイドで再生する為にインポート
-from pydub import AudioSegment
-from pydub.playback import play
 
 config = get_config()
 ln = config.server_config.language
@@ -103,7 +96,7 @@ if __name__ == "__main__":
 
     # 使えれば CUDA もしくは MPS、どちらも無ければ CPU
     if torch.cuda.is_available():
-        device = "cuda"
+        device = "mps"
     # MPS だと、音声合成した声がかすれる現象が発生しているため、CPU に決め打ち
     #elif torch.backends.mps.is_built():
     #    device = "mps"

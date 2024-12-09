@@ -27,7 +27,7 @@ def extract_bert_feature(
         torch.Tensor: BERT の特徴量
     """
 
-    if device == "cuda" and not torch.cuda.is_available():
+    if device == "mps" and not torch.cuda.is_available():
         device = "cpu"
     model = bert_models.load_model(Languages.ZH).to(device)  # type: ignore
 

@@ -4,26 +4,20 @@ from typing import Optional
 
 import gradio as gr
 
-from style_bert_vits2.constants import (
-    DEFAULT_ASSIST_TEXT_WEIGHT,
-    DEFAULT_LENGTH,
-    DEFAULT_LINE_SPLIT,
-    DEFAULT_NOISE,
-    DEFAULT_NOISEW,
-    DEFAULT_SDP_RATIO,
-    DEFAULT_SPLIT_INTERVAL,
-    DEFAULT_STYLE,
-    DEFAULT_STYLE_WEIGHT,
-    GRADIO_THEME,
-    Languages,
-)
+from style_bert_vits2.constants import (DEFAULT_ASSIST_TEXT_WEIGHT,
+                                        DEFAULT_LENGTH, DEFAULT_LINE_SPLIT,
+                                        DEFAULT_NOISE, DEFAULT_NOISEW,
+                                        DEFAULT_SDP_RATIO,
+                                        DEFAULT_SPLIT_INTERVAL, DEFAULT_STYLE,
+                                        DEFAULT_STYLE_WEIGHT, GRADIO_THEME,
+                                        Languages)
 from style_bert_vits2.logging import logger
 from style_bert_vits2.models.infer import InvalidToneError
 from style_bert_vits2.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
-from style_bert_vits2.nlp.japanese.g2p_utils import g2kata_tone, kata_tone2phone_tone
+from style_bert_vits2.nlp.japanese.g2p_utils import (g2kata_tone,
+                                                     kata_tone2phone_tone)
 from style_bert_vits2.nlp.japanese.normalizer import normalize_text
 from style_bert_vits2.tts_model import TTSModelHolder
-
 
 # pyopenjtalk_worker を起動
 ## pyopenjtalk_worker は TCP ソケットサーバーのため、ここで起動する
@@ -526,12 +520,13 @@ def create_inference_app(model_holder: TTSModelHolder) -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    from config import get_path_config
     import torch
+
+    from config import get_path_config
 
     path_config = get_path_config()
     assets_root = path_config.assets_root
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "mps" if torch.cuda.is_available() else "cpu"
     model_holder = TTSModelHolder(assets_root, device)
     app = create_inference_app(model_holder)
     app.launch(inbrowser=True)

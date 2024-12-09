@@ -92,7 +92,7 @@ class Bert_gen_config:
         self,
         config_path: str,
         num_processes: int = 1,
-        device: str = "cuda",
+        device: str = "mps",
         use_multi_device: bool = False,
     ):
         self.config_path = Path(config_path)
@@ -116,7 +116,7 @@ class Style_gen_config:
         self,
         config_path: str,
         num_processes: int = 4,
-        device: str = "cuda",
+        device: str = "mps",
     ):
         self.config_path = Path(config_path)
         self.num_processes = num_processes
@@ -196,7 +196,7 @@ class Server_config:
     def __init__(
         self,
         port: int = 5000,
-        device: str = "cuda",
+        device: str = "mps",
         limit: int = 100,
         language: str = "JP",
         origins: list[str] = ["*"],

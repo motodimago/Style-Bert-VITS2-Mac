@@ -34,7 +34,7 @@ def extract_bert_feature(
     if assist_text:
         assist_text = "".join(text_to_sep_kata(assist_text, raise_yomi_error=False)[0])
 
-    if device == "cuda" and not torch.cuda.is_available():
+    if device == "mps" and not torch.cuda.is_available():
         device = "cpu"
     model = bert_models.load_model(Languages.JP).to(device)  # type: ignore
 

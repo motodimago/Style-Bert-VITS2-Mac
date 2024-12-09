@@ -21,24 +21,17 @@ from fastapi.responses import FileResponse, Response
 from scipy.io import wavfile
 
 from config import get_config
-from style_bert_vits2.constants import (
-    DEFAULT_ASSIST_TEXT_WEIGHT,
-    DEFAULT_LENGTH,
-    DEFAULT_LINE_SPLIT,
-    DEFAULT_NOISE,
-    DEFAULT_NOISEW,
-    DEFAULT_SDP_RATIO,
-    DEFAULT_SPLIT_INTERVAL,
-    DEFAULT_STYLE,
-    DEFAULT_STYLE_WEIGHT,
-    Languages,
-)
+from style_bert_vits2.constants import (DEFAULT_ASSIST_TEXT_WEIGHT,
+                                        DEFAULT_LENGTH, DEFAULT_LINE_SPLIT,
+                                        DEFAULT_NOISE, DEFAULT_NOISEW,
+                                        DEFAULT_SDP_RATIO,
+                                        DEFAULT_SPLIT_INTERVAL, DEFAULT_STYLE,
+                                        DEFAULT_STYLE_WEIGHT, Languages)
 from style_bert_vits2.logging import logger
 from style_bert_vits2.nlp import bert_models
 from style_bert_vits2.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
 from style_bert_vits2.nlp.japanese.user_dict import update_dict
 from style_bert_vits2.tts_model import TTSModel, TTSModelHolder
-
 
 config = get_config()
 ln = config.server_config.language
@@ -102,7 +95,7 @@ if __name__ == "__main__":
     if args.cpu:
         device = "cpu"
     else:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = "mps" if torch.cuda.is_available() else "cpu"
 
     model_dir = Path(args.dir)
     model_holder = TTSModelHolder(model_dir, device)

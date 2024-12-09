@@ -14,7 +14,6 @@ from config import get_path_config
 from style_bert_vits2.logging import logger
 from style_bert_vits2.tts_model import TTSModel
 
-
 warnings.filterwarnings("ignore")
 
 mos_result_dir = Path("mos_results")
@@ -43,7 +42,7 @@ predictor = torch.hub.load(
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_name", "-m", type=str, required=True)
-parser.add_argument("--device", "-d", type=str, default="cuda")
+parser.add_argument("--device", "-d", type=str, default="mps")
 
 args = parser.parse_args()
 

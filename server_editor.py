@@ -30,30 +30,21 @@ from pydantic import BaseModel
 from scipy.io import wavfile
 
 from config import get_path_config
-from style_bert_vits2.constants import (
-    DEFAULT_ASSIST_TEXT_WEIGHT,
-    DEFAULT_NOISE,
-    DEFAULT_NOISEW,
-    DEFAULT_SDP_RATIO,
-    DEFAULT_STYLE,
-    DEFAULT_STYLE_WEIGHT,
-    VERSION,
-    Languages,
-)
+from style_bert_vits2.constants import (DEFAULT_ASSIST_TEXT_WEIGHT,
+                                        DEFAULT_NOISE, DEFAULT_NOISEW,
+                                        DEFAULT_SDP_RATIO, DEFAULT_STYLE,
+                                        DEFAULT_STYLE_WEIGHT, VERSION,
+                                        Languages)
 from style_bert_vits2.logging import logger
 from style_bert_vits2.nlp import bert_models
 from style_bert_vits2.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
-from style_bert_vits2.nlp.japanese.g2p_utils import g2kata_tone, kata_tone2phone_tone
+from style_bert_vits2.nlp.japanese.g2p_utils import (g2kata_tone,
+                                                     kata_tone2phone_tone)
 from style_bert_vits2.nlp.japanese.normalizer import normalize_text
-from style_bert_vits2.nlp.japanese.user_dict import (
-    apply_word,
-    delete_word,
-    read_dict,
-    rewrite_word,
-    update_dict,
-)
+from style_bert_vits2.nlp.japanese.user_dict import (apply_word, delete_word,
+                                                     read_dict, rewrite_word,
+                                                     update_dict)
 from style_bert_vits2.tts_model import TTSModelHolder, TTSModelInfo
-
 
 # ---フロントエンド部分に関する処理---
 
@@ -177,7 +168,7 @@ origins = [
 path_config = get_path_config()
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_dir", type=str, default=path_config.assets_root)
-parser.add_argument("--device", type=str, default="cuda")
+parser.add_argument("--device", type=str, default="mps")
 parser.add_argument("--port", type=int, default=8000)
 parser.add_argument("--inbrowser", action="store_true")
 parser.add_argument("--line_length", type=int, default=None)
@@ -186,7 +177,7 @@ parser.add_argument("--line_count", type=int, default=None)
 parser.add_argument("--skip_static_files", action="store_true")
 args = parser.parse_args()
 device = args.device
-if device == "cuda" and not torch.cuda.is_available():
+if device == "mps" and not torch.cuda.is_available():
     device = "cpu"
 model_dir = Path(args.model_dir)
 port = int(args.port)

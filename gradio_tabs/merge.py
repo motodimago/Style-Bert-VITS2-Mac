@@ -13,13 +13,12 @@ from style_bert_vits2.constants import DEFAULT_STYLE, GRADIO_THEME
 from style_bert_vits2.logging import logger
 from style_bert_vits2.tts_model import TTSModel, TTSModelHolder
 
-
 voice_keys = ["dec"]
 voice_pitch_keys = ["flow"]
 speech_style_keys = ["enc_p"]
 tempo_keys = ["sdp", "dp"]
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "mps" if torch.cuda.is_available() else "cpu"
 path_config = get_path_config()
 assets_root = path_config.assets_root
 
@@ -1525,7 +1524,7 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
 
 if __name__ == "__main__":
     model_holder = TTSModelHolder(
-        assets_root, device="cuda" if torch.cuda.is_available() else "cpu"
+        assets_root, device="mps" if torch.cuda.is_available() else "cpu"
     )
     app = create_merge_app(model_holder)
     app.launch(inbrowser=True)

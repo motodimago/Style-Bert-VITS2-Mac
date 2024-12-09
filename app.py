@@ -1,4 +1,5 @@
 import argparse
+import os
 from pathlib import Path
 
 import gradio as gr
@@ -15,8 +16,6 @@ from style_bert_vits2.nlp.japanese import pyopenjtalk_worker
 from style_bert_vits2.nlp.japanese.user_dict import update_dict
 from style_bert_vits2.tts_model import TTSModelHolder
 
-import os
-
 # このプロセスからはワーカーを起動して辞書を使いたいので、ここで初期化
 pyopenjtalk_worker.initialize_worker()
 
@@ -25,7 +24,7 @@ update_dict()
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--device", type=str, default="cuda")
+parser.add_argument("--device", type=str, default="mps")
 parser.add_argument("--host", type=str, default="127.0.0.1")
 parser.add_argument("--port", type=int, default=None)
 parser.add_argument("--no_autolaunch", action="store_true")
@@ -36,7 +35,7 @@ args = parser.parse_args()
 device = args.device
 
 if torch.cuda.is_available():
-    device = "cuda"
+    device = "mps"
 # MPS だと、音声合成した声がかすれる現象が発生しているため、CPU に決め打ち
 #elif torch.backends.mps.is_built():
 #    device = "mps"

@@ -53,4 +53,4 @@ def test_synthesize_cpu():
 
 # Windows環境ではtorchのcudaが簡単に入らないため、テストをスキップ
 # def test_synthesize_cuda():
-#     synthesize(device="cuda")
+#     synthesize(device="mps")
